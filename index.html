@@ -149,3 +149,158 @@ dialog dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:.95
 dialog dt{color:var(--leise)}
 dialog p{margin-top:14px;font-size:.95rem}
 dialog button{
+  margin-top:18px;width:100%;padding:12px;font:700 1rem inherit;cursor:pointer;
+  background:var(--gelb);color:#10203c;border:0;border-radius:var(--r);
+}
+@media (prefers-reduced-motion:reduce){.zettel{transition:none}.sterne,.feuer{animation:none}}
+</style>
+</head>
+<body>
+<div class="szene" aria-hidden="true">
+  <div class="sterne"></div>
+  <div class="mond"></div>
+  <div class="feuer"></div>
+  <div class="tannen hinten"></div>
+  <div class="tannen vorne"></div>
+</div>
+
+<div class="wrap">
+  <header>
+    <h1>The Real <span>Rovers</span></h1>
+    <div class="schnur" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    <ul id="liste" aria-label="Termine"></ul>
+
+    <div class="zwischen">— die sieben Rover —</div>
+    <div class="rover" id="rover"></div>
+  </main>
+
+  <footer>Aagschlage uf em Brett · Änderige vorbehalte</footer>
+</div>
+
+<dialog id="detail" aria-labelledby="dTitel">
+  <div class="grosz" id="dEmoji"></div>
+  <h2 id="dTitel"></h2>
+  <dl id="dInfo"></dl>
+  <p id="dText"></p>
+  <button type="button" id="zu">Passt, zuemache</button>
+</dialog>
+
+<script>
+/* ============ HIER TERMINE ÄNDERN / ERGÄNZEN ============
+   datum:  "JJJJ-MM-TT" oder null (Datum no offe)
+   bis:    optional, Enddatum "JJJJ-MM-TT"
+   zeit:   optional, Startzeit "HH:MM" (für Countdown), zeitText: Anzeige
+   ort:    optional
+   text:   optional, kurzer Spruch im Detailfenster
+   Reihenfolge im Array egal – wird automatisch sortiert. */
+const TERMINE = [
+  { emoji:"🎂", titel:"Geburtstagsfestli Bombi", datum:"2026-11-14",
+    text:"Bombi wird ein Jahr weiser. Kuchen ist Pflicht." },
+  { emoji:"🎄", titel:"Wiehnachtsmärt", datum:null,
+    text:"Datum no offe. Glühwii chunnt sicher, de Rest klärt sich." },
+  { emoji:"🎆", titel:"Silvester", datum:"2026-12-31",
+    text:"Es neus Jahr, die glichi Bande." },
+  { emoji:"🔥", titel:"Grille im Wald", datum:"2027-01-23", zeit:"17:00",
+    zeitText:"17:00 – offen", ort:"Froloo",
+    text:"Wurscht, Cervelat und Stockbrot. Warm azieh!" },
+  { emoji:"🥾", titel:"Wandere", datum:"2027-04-23", bis:"2027-04-25",
+    text:"Drei Tage, zwei Beine, null Ausreden." }
+];
+const ROVER = ["Gazosa","Titöf","Bombadil","Peach","Joy","Capone","Zark"];
+/* ======================================================== */
+
+const MON = ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
+const WT = ["Sonntag","Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag"];
+const $ = id => document.getElementById(id);
+
+function parse(d,z){
+  if(!d) return null;
+  const [y,m,t]=d.split("-").map(Number);
+  const [h,mi]=(z||"00:00").split(":").map(Number);
+  return new Date(y,m-1,t,h,mi);
+}
+const fmt = d => `${d.getDate()}.${d.getMonth()+1}.${d.getFullYear()}`;
+function datumText(e){
+  const s=parse(e.datum); if(!s) return "Datum no offe";
+  if(e.bis){ const b=parse(e.bis);
+    return `${s.getDate()}.–${b.getDate()}.${b.getMonth()+1}.${b.getFullYear()}`; }
+  return `${WT[s.getDay()]}, ${fmt(s)}`;
+}
+function ende(e){ const b=parse(e.bis||e.datum); if(b) b.setHours(23,59,59); return b; }
+
+const items = TERMINE.map(e=>({...e,start:parse(e.datum,e.zeit)}))
+  .sort((a,b)=> a.start&&b.start ? a.start-b.start : a.start?-1 : b.start?1 : 0);
+
+function badge(e){
+  if(!e.start) return `<div class="datum offen mono">Datum<br>no offe</div>`;
+  return `<div class="datum mono"><b>${e.start.getDate()}</b><small>${MON[e.start.getMonth()]}</small></div>`;
+}
+function metaText(e){
+  return [e.bis?datumText(e):(e.start?null:"Datum no offe"), e.zeitText||e.zeit, e.ort]
+    .filter(Boolean).join(" · ") || datumText(e);
+}
+
+let naechster=null;
+function render(){
+  const jetzt=new Date();
+  naechster = items.find(e=>e.start && ende(e)>=jetzt) || null;
+  $("liste").innerHTML = items.map((e,i)=>{
+    const vorbei = e.start && ende(e)<jetzt;
+    const istNext = e===naechster;
+    const kopf = `${istNext?'<div class="kopf">':''}
+      <div class="emoji">${e.emoji}</div>
+      <div class="info"><div class="titel">${e.titel}</div><div class="meta">${metaText(e)}</div></div>
+      ${badge(e)}${istNext?'</div>':''}`;
+    const cd = istNext ? `<div class="countdown" id="cd" aria-live="off">
+        <div><b id="cdD">–</b><small>Tage</small></div><div><b id="cdH">–</b><small>Std</small></div>
+        <div><b id="cdM">–</b><small>Min</small></div><div><b id="cdS">–</b><small>Sek</small></div></div>
+        <div class="spruch" id="spruch"></div>` : "";
+    return `<li class="${vorbei?'vorbei':''} ${istNext?'next':''}">
+      <button class="zettel" data-i="${i}" type="button">
+        ${istNext?'<span class="stempel">Nächsti Station</span>':''}${kopf}${cd}
+      </button></li>`;
+  }).join("");
+  tick();
+}
+
+function tick(){
+  if(!naechster) return;
+  const jetzt=new Date(); let ms=naechster.start-jetzt;
+  const laeuft = ms<=0;
+  if(laeuft) ms=0;
+  const s=Math.floor(ms/1000);
+  $("cdD").textContent=Math.floor(s/86400);
+  $("cdH").textContent=String(Math.floor(s%86400/3600)).padStart(2,"0");
+  $("cdM").textContent=String(Math.floor(s%3600/60)).padStart(2,"0");
+  $("cdS").textContent=String(s%60).padStart(2,"0");
+  const tage=Math.floor(s/86400);
+  $("spruch").textContent = laeuft ? "Isch im Gang – gnüss es!"
+    : tage===0 ? "Hüt isch es soweit!"
+    : tage<=7 ? "Rucksack scho packt?" : "Gnueg Ziit zum Freue.";
+}
+
+$("liste").addEventListener("click",ev=>{
+  const b=ev.target.closest(".zettel"); if(!b) return;
+  const e=items[+b.dataset.i];
+  $("dEmoji").textContent=e.emoji;
+  $("dTitel").textContent=e.titel;
+  const zeilen=[["Wann",datumText(e)]];
+  if(e.zeitText||e.zeit) zeilen.push(["Zeit",e.zeitText||e.zeit]);
+  if(e.ort) zeilen.push(["Wo",e.ort]);
+  $("dInfo").innerHTML=zeilen.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("");
+  $("dText").textContent=e.text||"";
+  $("detail").showModal();
+});
+$("zu").onclick=()=>$("detail").close();
+$("detail").addEventListener("click",ev=>{ if(ev.target.id==="detail") ev.target.close(); });
+
+$("rover").innerHTML=ROVER.map(n=>`<span>${n}</span>`).join("");
+render();
+setInterval(tick,1000);
+setInterval(render,60*60*1000);
+</script>
+</body>
+</html>
