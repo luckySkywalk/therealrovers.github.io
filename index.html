@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de-CH">
 <head>
@@ -128,36 +129,29 @@ dialog button{margin-top:18px;width:100%;padding:12px;font:700 1rem inherit;curs
   <main>
     <ul id="liste" aria-label="Termine">
       <!-- Statischer Inhalt: bleibt sichtbar, auch wenn JavaScript einmal nicht lädt -->
-      <li data-date="2026-11-14">
+      <li data-date="2026-12-22">
         <button class="zettel" type="button" data-index="0">
-          <div class="emoji">🎂</div>
-          <div class="info"><div class="titel">Geburtstagsfestli Bombi</div><div class="meta">Samstag, 14.11.2026</div></div>
-          <div class="datum mono"><b>14</b><small>Nov</small></div>
-        </button>
-      </li>
-      <li data-date="">
-        <button class="zettel" type="button" data-index="1">
           <div class="emoji">🎄</div>
-          <div class="info"><div class="titel">Wiehnachtsmärt</div><div class="meta">Datum no offe</div></div>
-          <div class="datum offen mono">Datum<br>no offe</div>
+          <div class="info"><div class="titel">Wiehnachtsmärt</div><div class="meta">Dienstag, 22.12.2026</div></div>
+          <div class="datum mono"><b>22</b><small>Dez</small></div>
         </button>
       </li>
       <li data-date="2026-12-31">
-        <button class="zettel" type="button" data-index="2">
+        <button class="zettel" type="button" data-index="1">
           <div class="emoji">🎆</div>
           <div class="info"><div class="titel">Silvester</div><div class="meta">Donnerstag, 31.12.2026</div></div>
           <div class="datum mono"><b>31</b><small>Dez</small></div>
         </button>
       </li>
       <li data-date="2027-01-23">
-        <button class="zettel" type="button" data-index="3">
+        <button class="zettel" type="button" data-index="2">
           <div class="emoji">🔥</div>
           <div class="info"><div class="titel">Grille im Wald</div><div class="meta">Samstag, 23.01.2027 · 17:00 – offen · Froloo</div></div>
           <div class="datum mono"><b>23</b><small>Jan</small></div>
         </button>
       </li>
       <li data-date="2027-04-23">
-        <button class="zettel" type="button" data-index="4">
+        <button class="zettel" type="button" data-index="3">
           <div class="emoji">🥾</div>
           <div class="info"><div class="titel">Wandere</div><div class="meta">23.–25.04.2027</div></div>
           <div class="datum mono"><b>23</b><small>Apr</small></div>
@@ -185,10 +179,8 @@ dialog button{margin-top:18px;width:100%;padding:12px;font:700 1rem inherit;curs
 
 <script>
 const TERMINE = [
-  {emoji:"🎂", titel:"Geburtstagsfestli Bombi", datum:"2026-11-14",
-   text:"Oder au: Ihweiigsparty"},
-  {emoji:"🎄", titel:"Wiehnachtsmärt", datum:null,
-   text:"Datum no offe. Mir teste denn Glüehwii!"},
+  {emoji:"🎄", titel:"Wiehnachtsmärt", datum:"2026-12-22",
+   text:"Mir teste denn Glüehwii!"},
   {emoji:"🎆", titel:"Silvester", datum:"2026-12-31",
    text:"Neus Johr, neue Ort🤔?"},
   {emoji:"🔥", titel:"Grille im Wald", datum:"2027-01-23", zeit:"17:00",
