@@ -6,28 +6,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1730">
 <title>THE REAL ROVERS</title>
+
 <style>
 :root{
-  --nacht:#0b1730; --nacht2:#13284a; --zettel:#16294a; --linie:#2f4c7c;
-  --text:#f3efe2; --leise:#a5b4cf;
-  --gelb:#f2c230; --blau:#4a86d6; --feuer:#e8702a; --khaki:#c9b77c;
+  --nacht:#0b1730;
+  --nacht2:#13284a;
+  --zettel:#16294a;
+  --linie:#2f4c7c;
+  --text:#f3efe2;
+  --leise:#a5b4cf;
+  --gelb:#f2c230;
+  --blau:#4a86d6;
+  --feuer:#e8702a;
+  --khaki:#c9b77c;
   --r:6px;
 }
+
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
+
 body{
-  background:var(--nacht); color:var(--text);
+  background:var(--nacht);
+  color:var(--text);
   font-family:"Avenir Next","Segoe UI",system-ui,sans-serif;
-  line-height:1.4; min-height:100vh;
+  line-height:1.4;
+  min-height:100vh;
   padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
 }
+
 button{font:inherit}
 .mono{font-family:"Courier New",ui-monospace,Menlo,monospace}
 
-/* Lagerplatz-Hintergrund */
-.szene{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
-  background:linear-gradient(180deg,#07101f 0%,#0d1f3d 55%,#1b3358 100%);}
-.sterne{position:absolute;inset:0 0 40% 0;opacity:.9;
+/* Hintergrund */
+.szene{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
+  background:linear-gradient(180deg,#07101f 0%,#0d1f3d 55%,#1b3358 100%);
+}
+
+.sterne{
+  position:absolute;
+  inset:0 0 40% 0;
+  opacity:.9;
   background-image:
     radial-gradient(1.4px 1.4px at 12% 18%,#fff 98%,transparent),
     radial-gradient(1px 1px at 27% 8%,#fff 98%,transparent),
@@ -39,154 +62,456 @@ button{font:inherit}
     radial-gradient(1px 1px at 6% 36%,#fff 98%,transparent),
     radial-gradient(1px 1px at 65% 38%,#fff 98%,transparent),
     radial-gradient(1.2px 1.2px at 36% 40%,#fff 98%,transparent);
-  animation:funkeln 6s ease-in-out infinite alternate;}
-@keyframes funkeln{from{opacity:.55}to{opacity:1}}
-.mond{position:absolute;top:5%;right:9%;width:44px;height:44px;border-radius:50%;
-  background:#f6edc8;box-shadow:inset -9px -4px 0 0 #d9cc99;opacity:.92}
-.feuer{position:absolute;left:50%;bottom:-120px;width:140vmax;height:340px;
+  animation:funkeln 6s ease-in-out infinite alternate;
+}
+
+@keyframes funkeln{
+  from{opacity:.55}
+  to{opacity:1}
+}
+
+.mond{
+  position:absolute;
+  top:5%;
+  right:9%;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:#f6edc8;
+  box-shadow:inset -9px -4px 0 0 #d9cc99;
+  opacity:.92;
+}
+
+.feuer{
+  position:absolute;
+  left:50%;
+  bottom:-120px;
+  width:140vmax;
+  height:340px;
   transform:translateX(-50%);
   background:radial-gradient(ellipse at 50% 100%,rgba(232,112,42,.38),rgba(232,112,42,0) 62%);
-  animation:flackern 3.2s ease-in-out infinite alternate;}
-@keyframes flackern{from{opacity:.65}to{opacity:1}}
-.tannen{position:absolute;left:0;right:0;bottom:0;background-repeat:repeat-x}
-.tannen.hinten{height:150px;opacity:.75;background-size:170px 150px;background-position:40px 0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='150' viewBox='0 0 170 150'%3E%3Cg fill='%230a1a33'%3E%3Cpolygon points='40,20 62,70 50,70 70,110 54,110 76,150 4,150 26,110 10,110 30,70 18,70'/%3E%3Cpolygon points='125,50 144,90 134,90 152,125 138,125 158,150 92,150 112,125 98,125 116,90 106,90'/%3E%3C/g%3E%3C/svg%3E");}
-.tannen.vorne{height:105px;background-size:130px 105px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='105' viewBox='0 0 130 105'%3E%3Cg fill='%2305101f'%3E%3Cpolygon points='35,8 54,48 44,48 60,78 48,78 64,105 6,105 22,78 10,78 26,48 16,48'/%3E%3Cpolygon points='100,30 114,60 107,60 119,83 110,83 122,105 78,105 90,83 81,83 93,60 86,60'/%3E%3C/g%3E%3C/svg%3E");}
+  animation:flackern 3.2s ease-in-out infinite alternate;
+}
 
-.wrap{position:relative;z-index:1;max-width:640px;margin:0 auto;padding:22px 16px 150px}
-header{text-align:center;padding:10px 0 22px}
-h1{font-family:"Rockwell","Courier New",ui-monospace,monospace;font-weight:800;
-  font-size:clamp(1.7rem,8.2vw,2.6rem);letter-spacing:.06em;text-transform:uppercase}
+@keyframes flackern{
+  from{opacity:.65}
+  to{opacity:1}
+}
+
+.tannen{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  background-repeat:repeat-x;
+}
+
+.tannen.hinten{
+  height:150px;
+  opacity:.75;
+  background-size:170px 150px;
+  background-position:40px 0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='150' viewBox='0 0 170 150'%3E%3Cg fill='%230a1a33'%3E%3Cpolygon points='40,20 62,70 50,70 70,110 54,110 76,150 4,150 26,110 10,110 30,70 18,70'/%3E%3Cpolygon points='125,50 144,90 134,90 152,125 138,125 158,150 92,150 112,125 98,125 116,90 106,90'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.tannen.vorne{
+  height:105px;
+  background-size:130px 105px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='130' height='105' viewBox='0 0 130 105'%3E%3Cg fill='%2305101f'%3E%3Cpolygon points='35,8 54,48 44,48 60,78 48,78 64,105 6,105 22,78 10,78 26,48 16,48'/%3E%3Cpolygon points='100,30 114,60 107,60 119,83 110,83 122,105 78,105 90,83 81,83 93,60 86,60'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Seitenlayout */
+.wrap{
+  position:relative;
+  z-index:1;
+  max-width:640px;
+  margin:0 auto;
+  padding:22px 16px 150px;
+}
+
+header{
+  text-align:center;
+  padding:10px 0 22px;
+}
+
+h1{
+  font-family:"Rockwell","Courier New",ui-monospace,monospace;
+  font-weight:800;
+  font-size:clamp(1.7rem,8.2vw,2.6rem);
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
 h1 span{color:var(--gelb)}
-.schnur{height:10px;margin:12px auto 0;max-width:280px;
-  background:radial-gradient(circle at 5px 5px,var(--khaki) 3px,transparent 3.5px) 0 0/20px 10px repeat-x;opacity:.85}
 
-ul{list-style:none;display:flex;flex-direction:column;gap:18px}
-.zettel{position:relative;width:100%;text-align:left;cursor:pointer;
-  background:var(--zettel);color:inherit;font:inherit;border:1px solid var(--linie);
-  border-radius:var(--r);padding:16px;display:flex;gap:14px;align-items:center;
-  box-shadow:0 4px 0 rgba(0,0,0,.35);transition:transform .15s ease,border-color .15s ease;
-  -webkit-tap-highlight-color:transparent}
+.schnur{
+  height:10px;
+  margin:12px auto 0;
+  max-width:280px;
+  background:radial-gradient(circle at 5px 5px,var(--khaki) 3px,transparent 3.5px) 0 0/20px 10px repeat-x;
+  opacity:.85;
+}
+
+/* Termine */
+ul{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.zettel{
+  position:relative;
+  width:100%;
+  text-align:left;
+  cursor:pointer;
+  background:var(--zettel);
+  color:inherit;
+  font:inherit;
+  border:1px solid var(--linie);
+  border-radius:var(--r);
+  padding:16px;
+  display:flex;
+  gap:14px;
+  align-items:center;
+  box-shadow:0 4px 0 rgba(0,0,0,.35);
+  transition:transform .15s ease,border-color .15s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+
 li:nth-child(odd) .zettel{transform:rotate(-.6deg)}
 li:nth-child(even) .zettel{transform:rotate(.5deg)}
-.zettel:hover,.zettel:focus-visible{transform:rotate(0) translateY(-2px);border-color:var(--gelb);outline:none}
-.zettel::before{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;
-  border-radius:50%;background:var(--feuer);border:2px solid #07101f;box-shadow:0 2px 0 rgba(0,0,0,.4)}
-.emoji{font-size:2rem;flex:none;width:2.4rem;text-align:center}
-.info{flex:1;min-width:0}.titel{font-weight:700;font-size:1.08rem}
+
+.zettel:hover,
+.zettel:focus-visible{
+  transform:rotate(0) translateY(-2px);
+  border-color:var(--gelb);
+  outline:none;
+}
+
+.zettel::before{
+  content:"";
+  position:absolute;
+  top:-6px;
+  left:50%;
+  width:12px;
+  height:12px;
+  margin-left:-6px;
+  border-radius:50%;
+  background:var(--feuer);
+  border:2px solid #07101f;
+  box-shadow:0 2px 0 rgba(0,0,0,.4);
+}
+
+.emoji{
+  font-size:2rem;
+  flex:none;
+  width:2.4rem;
+  text-align:center;
+}
+
+.info{flex:1;min-width:0}
+.titel{font-weight:700;font-size:1.08rem}
 .meta{font-size:.88rem;color:var(--leise);margin-top:2px}
-.datum{flex:none;text-align:center;min-width:58px;border:1.5px dashed var(--khaki);
-  border-radius:var(--r);padding:6px 6px 5px;color:var(--khaki)}
-.datum b{display:block;font-size:1.45rem;line-height:1}
-.datum small{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
-.datum.offen{color:var(--feuer);border-color:var(--feuer);font-size:.8rem;padding:10px 6px}
+
+.datum{
+  flex:none;
+  text-align:center;
+  min-width:58px;
+  border:1.5px dashed var(--khaki);
+  border-radius:var(--r);
+  padding:6px 6px 5px;
+  color:var(--khaki);
+}
+
+.datum b{
+  display:block;
+  font-size:1.45rem;
+  line-height:1;
+}
+
+.datum small{
+  font-size:.7rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.datum.offen{
+  color:var(--feuer);
+  border-color:var(--feuer);
+  font-size:.8rem;
+  padding:10px 6px;
+}
+
 .vorbei .zettel{opacity:.45}
-.next .zettel{flex-direction:column;align-items:stretch;gap:12px;border:2px solid var(--gelb);
-  padding:22px 16px 16px;background:#1b3159}
-.next .datum{color:var(--gelb);border-color:var(--gelb)}
-.next .kopf{display:flex;gap:14px;align-items:center}
-.stempel{position:absolute;top:-11px;right:12px;background:var(--gelb);color:#10203c;
-  font:700 .7rem "Courier New",monospace;letter-spacing:.14em;text-transform:uppercase;
-  padding:3px 8px;border-radius:3px;transform:rotate(2deg)}
-.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.countdown div{background:#0b1730;border:1px solid var(--linie);border-radius:var(--r);padding:8px 0 6px;text-align:center}
-.countdown b{display:block;font:700 1.55rem "Courier New",monospace;color:var(--gelb);font-variant-numeric:tabular-nums}
-.countdown small{font-size:.65rem;color:var(--leise);text-transform:uppercase;letter-spacing:.1em}
-.spruch{font-size:.85rem;color:var(--leise);text-align:center}
-.zwischen{margin:30px 0 10px;text-align:center;color:var(--khaki);
-  font:.78rem "Courier New",monospace;letter-spacing:.18em;text-transform:uppercase}
-.rover{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:6px}
-.rover span{font:600 .85rem "Courier New",monospace;border:1px solid var(--linie);
-  border-radius:999px;padding:5px 12px;background:rgba(11,23,48,.8)}
+
+/* Nächster Termin */
+.next .zettel{
+  flex-direction:column;
+  align-items:stretch;
+  gap:12px;
+  border:2px solid var(--gelb);
+  padding:22px 16px 16px;
+  background:#1b3159;
+}
+
+.next .datum{
+  color:var(--gelb);
+  border-color:var(--gelb);
+}
+
+.next .kopf{
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+
+.stempel{
+  position:absolute;
+  top:-11px;
+  right:12px;
+  background:var(--gelb);
+  color:#10203c;
+  font:700 .7rem "Courier New",monospace;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:3px;
+  transform:rotate(2deg);
+}
+
+/* Countdown */
+.countdown{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+
+.countdown div{
+  background:#0b1730;
+  border:1px solid var(--linie);
+  border-radius:var(--r);
+  padding:8px 0 6px;
+  text-align:center;
+}
+
+.countdown b{
+  display:block;
+  font:700 1.55rem "Courier New",monospace;
+  color:var(--gelb);
+  font-variant-numeric:tabular-nums;
+}
+
+.countdown small{
+  font-size:.65rem;
+  color:var(--leise);
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+.spruch{
+  font-size:.85rem;
+  color:var(--leise);
+  text-align:center;
+}
+
+.zwischen{
+  margin:30px 0 10px;
+  text-align:center;
+  color:var(--khaki);
+  font:.78rem "Courier New",monospace;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+/* Rover */
+.rover{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+  margin-top:6px;
+}
+
+.rover span{
+  font:600 .85rem "Courier New",monospace;
+  border:1px solid var(--linie);
+  border-radius:999px;
+  padding:5px 12px;
+  background:rgba(11,23,48,.8);
+}
+
 .rover span:nth-child(3n+1){border-color:var(--khaki)}
 .rover span:nth-child(3n+2){border-color:var(--blau)}
-footer{text-align:center;color:var(--leise);font-size:.75rem;margin-top:34px}
-dialog{margin:auto;width:min(92vw,420px);background:var(--zettel);color:var(--text);
-  border:2px solid var(--gelb);border-radius:var(--r);padding:22px 20px 18px}
+
+footer{
+  text-align:center;
+  color:var(--leise);
+  font-size:.75rem;
+  margin-top:34px;
+}
+
+/* Detail-Popup */
+dialog{
+  margin:auto;
+  width:min(92vw,420px);
+  background:var(--zettel);
+  color:var(--text);
+  border:2px solid var(--gelb);
+  border-radius:var(--r);
+  padding:22px 20px 18px;
+}
+
 dialog::backdrop{background:rgba(4,9,20,.8)}
 dialog h2{font-size:1.3rem;margin:6px 0 12px}
 dialog .grosz{font-size:2.4rem}
-dialog dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:.95rem}
-dialog dt{color:var(--leise)} dialog p{margin-top:14px;font-size:.95rem}
-dialog button{margin-top:18px;width:100%;padding:12px;font:700 1rem inherit;cursor:pointer;
-  background:var(--gelb);color:#10203c;border:0;border-radius:var(--r)}
-@media (prefers-reduced-motion:reduce){.zettel{transition:none}.sterne,.feuer{animation:none}}
+
+dialog dl{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:6px 12px;
+  font-size:.95rem;
+}
+
+dialog dt{color:var(--leise)}
+dialog p{margin-top:14px;font-size:.95rem}
+
+dialog button{
+  margin-top:18px;
+  width:100%;
+  padding:12px;
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  background:var(--gelb);
+  color:#10203c;
+  border:0;
+  border-radius:var(--r);
+}
+
+@media (prefers-reduced-motion:reduce){
+  .zettel{transition:none}
+  .sterne,.feuer{animation:none}
+}
 </style>
 </head>
+
 <body>
+
 <div class="szene" aria-hidden="true">
-  <div class="sterne"></div><div class="mond"></div><div class="feuer"></div>
-  <div class="tannen hinten"></div><div class="tannen vorne"></div>
+  <div class="sterne"></div>
+  <div class="mond"></div>
+  <div class="feuer"></div>
+  <div class="tannen hinten"></div>
+  <div class="tannen vorne"></div>
 </div>
 
 <div class="wrap">
-  <header>
-    <h1>The Real <span>Rovers</span></h1>
-    <div class="schnur" aria-hidden="true"></div>
-  </header>
 
-  <main>
-    <ul id="liste" aria-label="Termine">
-      <!-- Statischer Inhalt: bleibt sichtbar, auch wenn JavaScript einmal nicht lädt -->
+<header>
+  <h1>The Real <span>Rovers</span></h1>
+  <div class="schnur" aria-hidden="true"></div>
+</header>
 
-      <li data-date="2026-12-22">
-        <button class="zettel" type="button" data-index="0">
-          <div class="emoji">🎄</div>
-          <div class="info"><div class="titel">Wiehnachtsmärt</div><div class="meta">Dienstag, 22.12.2026</div></div>
-          <div class="datum mono"><b>22</b><small>Dez</small></div>
-        </button>
-      </li>
+<main>
 
-      <li data-date="2026-12-31">
-        <button class="zettel" type="button" data-index="1">
-          <div class="emoji">🎆</div>
-          <div class="info"><div class="titel">Silvester</div><div class="meta">Donnerstag, 31.12.2026</div></div>
-          <div class="datum mono"><b>31</b><small>Dez</small></div>
-        </button>
-      </li>
+<ul id="liste" aria-label="Termine">
 
-      <li data-date="2027-01-23">
-        <button class="zettel" type="button" data-index="2">
-          <div class="emoji">🔥</div>
-          <div class="info"><div class="titel">Grille im Wald</div><div class="meta">Samstag, 23.01.2027 · 17:00 – offen · Froloo</div></div>
-          <div class="datum mono"><b>23</b><small>Jan</small></div>
-        </button>
-      </li>
+  <li data-date="2026-12-22">
+    <button class="zettel" type="button" data-index="0">
+      <div class="emoji">🎄</div>
+      <div class="info">
+        <div class="titel">Wiehnachtsmärt</div>
+        <div class="meta">Dienstag, 22.12.2026</div>
+      </div>
+      <div class="datum mono"><b>22</b><small>Dez</small></div>
+    </button>
+  </li>
 
-      <li data-date="2027-02-06">
-        <button class="zettel" type="button" data-index="3">
-          <div class="emoji">🎭</div>
-          <div class="info"><div class="titel">Oberwiler Fasnacht</div><div class="meta">Samstag, 06.02.2027</div></div>
-          <div class="datum mono"><b>06</b><small>Feb</small></div>
-        </button>
-      </li>
+  <li data-date="2026-12-31">
+    <button class="zettel" type="button" data-index="1">
+      <div class="emoji">🎆</div>
+      <div class="info">
+        <div class="titel">Silvester</div>
+        <div class="meta">Donnerstag, 31.12.2026</div>
+      </div>
+      <div class="datum mono"><b>31</b><small>Dez</small></div>
+    </button>
+  </li>
 
-      <li data-date="2027-02-20">
-        <button class="zettel" type="button" data-index="4">
-          <div class="emoji">🔐</div>
-          <div class="info"><div class="titel">Escape Room</div><div class="meta">Samstag, 20.02.2027</div></div>
-          <div class="datum mono"><b>20</b><small>Feb</small></div>
-        </button>
-      </li>
+  <li data-date="2027-01-23">
+    <button class="zettel" type="button" data-index="2">
+      <div class="emoji">🔥</div>
+      <div class="info">
+        <div class="titel">Grille im Wald</div>
+        <div class="meta">Samstag, 23.01.2027 · 17:00 – offen · Froloo</div>
+      </div>
+      <div class="datum mono"><b>23</b><small>Jan</small></div>
+    </button>
+  </li>
 
-      <li data-date="2027-04-23">
-        <button class="zettel" type="button" data-index="5">
-          <div class="emoji">🥾</div>
-          <div class="info"><div class="titel">Wandere</div><div class="meta">23.–25.04.2027</div></div>
-          <div class="datum mono"><b>23</b><small>Apr</small></div>
-        </button>
-      </li>
-    </ul>
+  <li data-date="2027-02-06">
+    <button class="zettel" type="button" data-index="3">
+      <div class="emoji">🎭</div>
+      <div class="info">
+        <div class="titel">Oberwiler Fasnacht</div>
+        <div class="meta">Samstag, 06.02.2027</div>
+      </div>
+      <div class="datum mono"><b>06</b><small>Feb</small></div>
+    </button>
+  </li>
 
-    <div class="zwischen">— die sieben Rover —</div>
-    <div class="rover">
-      <span>Gazosa</span><span>Titöf</span><span>Bombadil</span><span>Peach</span>
-      <span>Joy</span><span>Nicola</span><span>Zark</span>
-    </div>
-  </main>
+  <li data-date="2027-02-20">
+    <button class="zettel" type="button" data-index="4">
+      <div class="emoji">🔐</div>
+      <div class="info">
+        <div class="titel">Escape Room</div>
+        <div class="meta">Samstag, 20.02.2027</div>
+      </div>
+      <div class="datum mono"><b>20</b><small>Feb</small></div>
+    </button>
+  </li>
 
-  <footer>Aaschlag · Änderige vorbehalte</footer>
+  <li data-date="2027-04-23">
+    <button class="zettel" type="button" data-index="5">
+      <div class="emoji">🥾</div>
+      <div class="info">
+        <div class="titel">Wandere</div>
+        <div class="meta">23.–25.04.2027</div>
+      </div>
+      <div class="datum mono"><b>23</b><small>Apr</small></div>
+    </button>
+  </li>
+
+  <li data-date="2027-09-03">
+    <button class="zettel" type="button" data-index="6">
+      <div class="emoji">🍻</div>
+      <div class="info">
+        <div class="titel">PFF</div>
+        <div class="meta">03.–05.09.2027</div>
+      </div>
+      <div class="datum mono"><b>03</b><small>Sep</small></div>
+    </button>
+  </li>
+
+</ul>
+
+<div class="zwischen">— die sieben Rover —</div>
+
+<div class="rover">
+  <span>Gazosa</span>
+  <span>Titöf</span>
+  <span>Bombadil</span>
+  <span>Peach</span>
+  <span>Joy</span>
+  <span>Nicola</span>
+  <span>Zark</span>
+</div>
+
+</main>
+
+<footer>Aaschlag · Änderige vorbehalte</footer>
+
 </div>
 
 <dialog id="detail" aria-labelledby="dTitel">
@@ -198,6 +523,8 @@ dialog button{margin-top:18px;width:100%;padding:12px;font:700 1rem inherit;curs
 </dialog>
 
 <script>
+
+/* Alle Termine in chronologischer Reihenfolge */
 const TERMINE = [
   {
     emoji:"🎄",
@@ -238,42 +565,81 @@ const TERMINE = [
     datum:"2027-04-23",
     bis:"2027-04-25",
     text:"Dr Titöf gits Tempo ah (haha)"
+  },
+  {
+    emoji:"🍻",
+    titel:"PFF",
+    datum:"2027-09-03",
+    bis:"2027-09-05",
+    text:"Sitzen und Saufen"
   }
 ];
 
-const MON=["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
-const WT=["Montag","Dienstag","Mittwoch","Donnerstag","Freitag","Samstag","Sonntag"];
+/* Wochentage: Montag bis Sonntag */
+const WT=[
+  "Montag",
+  "Dienstag",
+  "Mittwoch",
+  "Donnerstag",
+  "Freitag",
+  "Samstag",
+  "Sonntag"
+];
 
+/* Datum lokal erstellen, damit keine Zeitzonenverschiebung entsteht */
 function parseDate(d,z){
   if(!d) return null;
+
   const [y,m,day]=d.split("-").map(Number);
   const [h,mi]=(z||"00:00").split(":").map(Number);
+
   return new Date(y,m-1,day,h,mi);
 }
 
+/* Ende eines Termins bestimmen */
 function endDate(e){
   const d=parseDate(e.bis||e.datum);
+
   if(d) d.setHours(23,59,59,999);
+
   return d;
 }
 
+/* Korrekte Wochentagsberechnung */
 function dateText(e){
   const s=parseDate(e.datum);
+
   if(!s) return "Datum no offe";
+
+  const startWT=WT[(s.getDay()+6)%7];
+  const startDatum=String(s.getDate()).padStart(2,"0");
+  const startMonat=String(s.getMonth()+1).padStart(2,"0");
+
   if(e.bis){
     const b=parseDate(e.bis);
-    return `${s.getDate()}.–${b.getDate()}.${b.getMonth()+1}.${b.getFullYear()}`;
+
+    const endWT=WT[(b.getDay()+6)%7];
+    const endDatum=String(b.getDate()).padStart(2,"0");
+    const endMonat=String(b.getMonth()+1).padStart(2,"0");
+
+    return `${startWT}, ${startDatum}.${startMonat}.${s.getFullYear()} – ${endWT}, ${endDatum}.${endMonat}.${b.getFullYear()}`;
   }
-  return `${WT[s.getDay()]}, ${s.getDate()}.${s.getMonth()+1}.${s.getFullYear()}`;
+
+  return `${startWT}, ${startDatum}.${startMonat}.${s.getFullYear()}`;
 }
 
 let nextEvent=null;
 
+/* Nächsten Termin finden und hervorheben */
 function updatePage(){
   const now=new Date();
 
   nextEvent=TERMINE
-    .map((e,i)=>({...e,index:i,start:parseDate(e.datum,e.zeit)}))
+    .map((e,i)=>({
+      ...e,
+      index:i,
+      start:parseDate(e.datum,e.zeit)
+    }))
     .filter(e=>e.start && endDate(e)>=now)
     .sort((a,b)=>a.start-b.start)[0] || null;
 
@@ -282,11 +648,12 @@ function updatePage(){
     const start=parseDate(e.datum,e.zeit);
     const end=endDate(e);
 
-    li.classList.toggle("vorbei", !!(start && end<now));
-    li.classList.toggle("next", nextEvent && nextEvent.index===i);
+    li.classList.toggle("vorbei",!!(start && end<now));
+    li.classList.toggle("next",!!(nextEvent && nextEvent.index===i));
 
     const button=li.querySelector(".zettel");
     const oldStamp=button.querySelector(".stempel");
+
     if(oldStamp) oldStamp.remove();
 
     if(nextEvent && nextEvent.index===i){
@@ -298,7 +665,14 @@ function updatePage(){
       if(!button.querySelector(".countdown")){
         const cd=document.createElement("div");
         cd.className="countdown";
-        cd.innerHTML='<div><b data-cd="d">–</b><small>Tage</small></div><div><b data-cd="h">–</b><small>Std</small></div><div><b data-cd="m">–</b><small>Min</small></div><div><b data-cd="s">–</b><small>Sek</small></div>';
+
+        cd.innerHTML=`
+          <div><b data-cd="d">–</b><small>Tage</small></div>
+          <div><b data-cd="h">–</b><small>Std</small></div>
+          <div><b data-cd="m">–</b><small>Min</small></div>
+          <div><b data-cd="s">–</b><small>Sek</small></div>
+        `;
+
         button.appendChild(cd);
 
         const sp=document.createElement("div");
@@ -306,7 +680,7 @@ function updatePage(){
         sp.dataset.spruch="1";
         button.appendChild(sp);
       }
-    } else {
+    }else{
       button.querySelector(".countdown")?.remove();
       button.querySelector(".spruch")?.remove();
     }
@@ -315,14 +689,19 @@ function updatePage(){
   tick();
 }
 
+/* Countdown jede Sekunde aktualisieren */
 function tick(){
   if(!nextEvent) return;
 
-  const button=document.querySelector(`.zettel[data-index="${nextEvent.index}"]`);
+  const button=document.querySelector(
+    `.zettel[data-index="${nextEvent.index}"]`
+  );
+
   if(!button) return;
 
   let ms=nextEvent.start-new Date();
   const running=ms<=0;
+
   if(ms<0) ms=0;
 
   const sec=Math.floor(ms/1000);
@@ -337,41 +716,75 @@ function tick(){
   button.querySelector('[data-cd="s"]')?.replaceChildren(String(s).padStart(2,"0"));
 
   const spruch=button.querySelector('[data-spruch="1"]');
-  if(spruch) spruch.textContent=running?"Isch im Gang – gnüss es!":d===0?"Hüt isch es soweit!":d<=7?"Rucksack scho packt?":"Gnueg Ziit zum Freue.";
+
+  if(spruch){
+    spruch.textContent=
+      running ? "Isch im Gang – gnüss es!" :
+      d===0 ? "Hüt isch es soweit!" :
+      d<=7 ? "Rucksack scho packt?" :
+      "Gnueg Ziit zum Freue.";
+  }
 }
 
+/* Klick auf einen Termin öffnet das Detail-Popup */
 document.getElementById("liste").addEventListener("click",function(ev){
   const b=ev.target.closest(".zettel");
+
   if(!b) return;
 
   const e=TERMINE[Number(b.dataset.index)];
+
   if(!e) return;
 
   document.getElementById("dEmoji").textContent=e.emoji;
   document.getElementById("dTitel").textContent=e.titel;
 
-  const rows=[["Wann",dateText(e)]];
-  if(e.zeitText||e.zeit) rows.push(["Zeit",e.zeitText||e.zeit]);
-  if(e.ort) rows.push(["Wo",e.ort]);
+  const rows=[
+    ["Wann",dateText(e)]
+  ];
 
-  document.getElementById("dInfo").innerHTML=rows.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("");
+  if(e.zeitText||e.zeit){
+    rows.push(["Zeit",e.zeitText||e.zeit]);
+  }
+
+  if(e.ort){
+    rows.push(["Wo",e.ort]);
+  }
+
+  document.getElementById("dInfo").innerHTML=rows
+    .map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`)
+    .join("");
+
   document.getElementById("dText").textContent=e.text||"";
 
   const dialog=document.getElementById("detail");
-  if(typeof dialog.showModal==="function") dialog.showModal();
+
+  if(typeof dialog.showModal==="function"){
+    dialog.showModal();
+  }
 });
 
+/* Popup schliessen */
 document.getElementById("zu").addEventListener("click",()=>{
   document.getElementById("detail").close();
 });
 
 document.getElementById("detail").addEventListener("click",ev=>{
-  if(ev.target.id==="detail") ev.target.close();
+  if(ev.target.id==="detail"){
+    ev.target.close();
+  }
 });
 
+/* Initialisieren */
 updatePage();
+
+/* Countdown aktualisieren */
 setInterval(tick,1000);
+
+/* Termine stündlich neu prüfen */
 setInterval(updatePage,60*60*1000);
+
 </script>
+
 </body>
 </html>
