@@ -129,6 +129,7 @@ dialog button{margin-top:18px;width:100%;padding:12px;font:700 1rem inherit;curs
   <main>
     <ul id="liste" aria-label="Termine">
       <!-- Statischer Inhalt: bleibt sichtbar, auch wenn JavaScript einmal nicht lädt -->
+
       <li data-date="2026-12-22">
         <button class="zettel" type="button" data-index="0">
           <div class="emoji">🎄</div>
@@ -136,6 +137,7 @@ dialog button{margin-top:18px;width:100%;padding:12px;font:700 1rem inherit;curs
           <div class="datum mono"><b>22</b><small>Dez</small></div>
         </button>
       </li>
+
       <li data-date="2026-12-31">
         <button class="zettel" type="button" data-index="1">
           <div class="emoji">🎆</div>
@@ -143,6 +145,7 @@ dialog button{margin-top:18px;width:100%;padding:12px;font:700 1rem inherit;curs
           <div class="datum mono"><b>31</b><small>Dez</small></div>
         </button>
       </li>
+
       <li data-date="2027-01-23">
         <button class="zettel" type="button" data-index="2">
           <div class="emoji">🔥</div>
@@ -150,8 +153,25 @@ dialog button{margin-top:18px;width:100%;padding:12px;font:700 1rem inherit;curs
           <div class="datum mono"><b>23</b><small>Jan</small></div>
         </button>
       </li>
-      <li data-date="2027-04-23">
+
+      <li data-date="2027-02-06">
         <button class="zettel" type="button" data-index="3">
+          <div class="emoji">🎭</div>
+          <div class="info"><div class="titel">Oberwiler Fasnacht</div><div class="meta">Samstag, 06.02.2027</div></div>
+          <div class="datum mono"><b>06</b><small>Feb</small></div>
+        </button>
+      </li>
+
+      <li data-date="2027-02-20">
+        <button class="zettel" type="button" data-index="4">
+          <div class="emoji">🔐</div>
+          <div class="info"><div class="titel">Escape Room</div><div class="meta">Samstag, 20.02.2027</div></div>
+          <div class="datum mono"><b>20</b><small>Feb</small></div>
+        </button>
+      </li>
+
+      <li data-date="2027-04-23">
+        <button class="zettel" type="button" data-index="5">
           <div class="emoji">🥾</div>
           <div class="info"><div class="titel">Wandere</div><div class="meta">23.–25.04.2027</div></div>
           <div class="datum mono"><b>23</b><small>Apr</small></div>
@@ -179,15 +199,46 @@ dialog button{margin-top:18px;width:100%;padding:12px;font:700 1rem inherit;curs
 
 <script>
 const TERMINE = [
-  {emoji:"🎄", titel:"Wiehnachtsmärt", datum:"2026-12-22",
-   text:"Mir teste denn Glüehwii!"},
-  {emoji:"🎆", titel:"Silvester", datum:"2026-12-31",
-   text:"Neus Johr, neue Ort🤔?"},
-  {emoji:"🔥", titel:"Grille im Wald", datum:"2027-01-23", zeit:"17:00",
-   zeitText:"17:00 – offen", ort:"Froloo",
-   text:"Wurscht, Schlangebroot und (Holunder?)Glüehwii. Warm azieh!"},
-  {emoji:"🥾", titel:"Wandere", datum:"2027-04-23", bis:"2027-04-25",
-   text:"Dr Titöf gits Tempo ah (haha)"}
+  {
+    emoji:"🎄",
+    titel:"Wiehnachtsmärt",
+    datum:"2026-12-22",
+    text:"Mir teste denn Glüehwii!"
+  },
+  {
+    emoji:"🎆",
+    titel:"Silvester",
+    datum:"2026-12-31",
+    text:"Neus Johr, neue Ort🤔?"
+  },
+  {
+    emoji:"🔥",
+    titel:"Grille im Wald",
+    datum:"2027-01-23",
+    zeit:"17:00",
+    zeitText:"17:00 – offen",
+    ort:"Froloo",
+    text:"Wurscht, Schlangebroot und (Holunder?)Glüehwii. Warm azieh!"
+  },
+  {
+    emoji:"🎭",
+    titel:"Oberwiler Fasnacht",
+    datum:"2027-02-06",
+    text:"Laufen und Saufen"
+  },
+  {
+    emoji:"🔐",
+    titel:"Escape Room",
+    datum:"2027-02-20",
+    text:"Ich muss raauuus"
+  },
+  {
+    emoji:"🥾",
+    titel:"Wandere",
+    datum:"2027-04-23",
+    bis:"2027-04-25",
+    text:"Dr Titöf gits Tempo ah (haha)"
+  }
 ];
 
 const MON=["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
@@ -199,11 +250,13 @@ function parseDate(d,z){
   const [h,mi]=(z||"00:00").split(":").map(Number);
   return new Date(y,m-1,day,h,mi);
 }
+
 function endDate(e){
   const d=parseDate(e.bis||e.datum);
   if(d) d.setHours(23,59,59,999);
   return d;
 }
+
 function dateText(e){
   const s=parseDate(e.datum);
   if(!s) return "Datum no offe";
@@ -218,6 +271,7 @@ let nextEvent=null;
 
 function updatePage(){
   const now=new Date();
+
   nextEvent=TERMINE
     .map((e,i)=>({...e,index:i,start:parseDate(e.datum,e.zeit)}))
     .filter(e=>e.start && endDate(e)>=now)
@@ -227,6 +281,7 @@ function updatePage(){
     const e=TERMINE[i];
     const start=parseDate(e.datum,e.zeit);
     const end=endDate(e);
+
     li.classList.toggle("vorbei", !!(start && end<now));
     li.classList.toggle("next", nextEvent && nextEvent.index===i);
 
@@ -245,6 +300,7 @@ function updatePage(){
         cd.className="countdown";
         cd.innerHTML='<div><b data-cd="d">–</b><small>Tage</small></div><div><b data-cd="h">–</b><small>Std</small></div><div><b data-cd="m">–</b><small>Min</small></div><div><b data-cd="s">–</b><small>Sek</small></div>';
         button.appendChild(cd);
+
         const sp=document.createElement("div");
         sp.className="spruch";
         sp.dataset.spruch="1";
@@ -261,20 +317,25 @@ function updatePage(){
 
 function tick(){
   if(!nextEvent) return;
+
   const button=document.querySelector(`.zettel[data-index="${nextEvent.index}"]`);
   if(!button) return;
+
   let ms=nextEvent.start-new Date();
   const running=ms<=0;
   if(ms<0) ms=0;
+
   const sec=Math.floor(ms/1000);
   const d=Math.floor(sec/86400);
   const h=Math.floor(sec%86400/3600);
   const m=Math.floor(sec%3600/60);
   const s=sec%60;
+
   button.querySelector('[data-cd="d"]')?.replaceChildren(d);
   button.querySelector('[data-cd="h"]')?.replaceChildren(String(h).padStart(2,"0"));
   button.querySelector('[data-cd="m"]')?.replaceChildren(String(m).padStart(2,"0"));
   button.querySelector('[data-cd="s"]')?.replaceChildren(String(s).padStart(2,"0"));
+
   const spruch=button.querySelector('[data-spruch="1"]');
   if(spruch) spruch.textContent=running?"Isch im Gang – gnüss es!":d===0?"Hüt isch es soweit!":d<=7?"Rucksack scho packt?":"Gnueg Ziit zum Freue.";
 }
@@ -282,20 +343,28 @@ function tick(){
 document.getElementById("liste").addEventListener("click",function(ev){
   const b=ev.target.closest(".zettel");
   if(!b) return;
+
   const e=TERMINE[Number(b.dataset.index)];
   if(!e) return;
+
   document.getElementById("dEmoji").textContent=e.emoji;
   document.getElementById("dTitel").textContent=e.titel;
+
   const rows=[["Wann",dateText(e)]];
   if(e.zeitText||e.zeit) rows.push(["Zeit",e.zeitText||e.zeit]);
   if(e.ort) rows.push(["Wo",e.ort]);
+
   document.getElementById("dInfo").innerHTML=rows.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("");
   document.getElementById("dText").textContent=e.text||"";
+
   const dialog=document.getElementById("detail");
   if(typeof dialog.showModal==="function") dialog.showModal();
 });
 
-document.getElementById("zu").addEventListener("click",()=>document.getElementById("detail").close());
+document.getElementById("zu").addEventListener("click",()=>{
+  document.getElementById("detail").close();
+});
+
 document.getElementById("detail").addEventListener("click",ev=>{
   if(ev.target.id==="detail") ev.target.close();
 });
