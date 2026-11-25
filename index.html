@@ -494,6 +494,17 @@ dialog button{
     </button>
   </li>
 
+  <li data-date="2027-10-29">
+    <button class="zettel" type="button" data-index="7">
+      <div class="emoji">🎤</div>
+      <div class="info">
+        <div class="titel">Gospelchor Peach in Allschwil</div>
+        <div class="meta">Freitag, 29.10. oder Sonntag, 31.10.2027</div>
+      </div>
+      <div class="datum mono"><b>29</b><small>Okt</small></div>
+    </button>
+  </li>
+
 </ul>
 
 <div class="zwischen">— die sieben Rover —</div>
@@ -572,6 +583,14 @@ const TERMINE = [
     datum:"2027-09-03",
     bis:"2027-09-05",
     text:"Sitzen und Saufen"
+  },
+  {
+    emoji:"🎤",
+    titel:"Gospelchor Peach in Allschwil",
+    datum:"2027-10-29",
+    alternative:"2027-10-31",
+    ort:"Allschwil",
+    text:"Wär bringt d Rondos mit?"
   }
 ];
 
@@ -610,6 +629,14 @@ function dateText(e){
   const s=parseDate(e.datum);
 
   if(!s) return "Datum no offe";
+
+  if(e.alternative){
+    const a=parseDate(e.alternative);
+    const startWT=WT[(s.getDay()+6)%7];
+    const endWT=WT[(a.getDay()+6)%7];
+
+    return `${startWT}, 29.10.2027 oder ${endWT}, 31.10.2027`;
+  }
 
   const startWT=WT[(s.getDay()+6)%7];
   const startDatum=String(s.getDate()).padStart(2,"0");
